@@ -1,26 +1,25 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { saveGame, playerOneWin, playerTwoWin } from '../actions/index';
+import { playerOneWin, playerTwoWin } from '../actions/index';
 import { connect } from 'react-redux';
 import { CSVLink } from 'react-csv';
 class Scoreboard extends Component {
   clickMe = () => {
     console.log('HEllo');
   };
-  downloadCsv = () => {
-    console.log('csv');
-    <CSVLink data={this.props.scoreboard.gameData}>Download me</CSVLink>;
-  };
+
   componentDidMount = () => {
     if (this.props.scoreboard.gameCount === 0) {
       this.props.history.push('/');
     }
   };
+  handleDelete = () => {
+    this.props.history.push('/');
+  };
   render() {
     console.log(this.props.history);
     const { gameCount } = this.props.scoreboard;
     const { gameData } = this.props.scoreboard;
-    console.log(this.props.scoreboard);
     return (
       <>
         <div className='outer'>
@@ -28,54 +27,96 @@ class Scoreboard extends Component {
             <h3>Scoreboard</h3>
             <div style={{ marginTop: '20px' }} className='form-group'>
               <div>
-                <span>
-                  Player 1
-                  <button onClick={() => this.props.playerOneWin()}>
+                <span className='font'>
+                  Player 1 :{' '}
+                  {gameData &&
+                    gameData[gameCount - 1] &&
+                    gameData[gameCount - 1].playerOne}
+                  <button
+                    style={{ float: 'right' }}
+                    className='btn btn-success'
+                    onClick={() => this.props.playerOneWin()}
+                  >
                     Add win
                   </button>
                 </span>
               </div>
-              <div>Wins</div>
+              <div>
+                <span className='font'>
+                  Wins :{' '}
+                  {gameData &&
+                    gameData[gameCount - 1] &&
+                    gameData[gameCount - 1].scoreOne}
+                </span>
+              </div>
             </div>
             <div style={{ marginTop: '40px' }} className='form-group'>
-              <span>
-                Player 2 win
-                <button onClick={() => this.props.playerTwoWin()}>
+              <span className='font'>
+                Player 2 :{' '}
+                {gameData &&
+                  gameData[gameCount - 1] &&
+                  gameData[gameCount - 1].playerTwo}
+                <button
+                  style={{ float: 'right' }}
+                  className='btn btn-success'
+                  onClick={() => this.props.playerTwoWin()}
+                >
                   Add win
                 </button>
               </span>
-              <div>Wins</div>
-            </div>
-            <div>
-              <span>
-                Current Winner :{' '}
-                {(gameData &&
-                  gameData[gameCount - 1] &&
-                  gameData[gameCount - 1].scoreOne) >
-                (gameData &&
-                  gameData[gameCount - 1] &&
-                  gameData[gameCount - 1].scoreTwo)
-                  ? gameData[gameCount - 1].playerOne
-                  : gameData &&
+              <div>
+                <span className='font'>
+                  Wins :{' '}
+                  {gameData &&
                     gameData[gameCount - 1] &&
-                    gameData[gameCount - 1].playerTwo}
-              </span>
+                    gameData[gameCount - 1].scoreTwo}
+                </span>
+              </div>
             </div>
-            <div>
-              <span>
-                Win Difference :{' '}
-                {(gameData &&
-                  gameData[gameCount - 1] &&
-                  gameData[gameCount - 1].scoreOne) -
+            <div style={{ marginTop: '30px' }}>
+              <h4 style={{ textAlign: 'center' }}>
+                {' '}
+                <span>
+                  Current Winner :{' '}
+                  {(gameData &&
+                    gameData[gameCount - 1] &&
+                    gameData[gameCount - 1].scoreOne) >
                   (gameData &&
                     gameData[gameCount - 1] &&
-                    gameData[gameCount - 1].scoreTwo)}
-              </span>
+                    gameData[gameCount - 1].scoreTwo)
+                    ? gameData[gameCount - 1].playerOne
+                    : ''}
+                  {(gameData &&
+                    gameData[gameCount - 1] &&
+                    gameData[gameCount - 1].scoreOne) <
+                  (gameData &&
+                    gameData[gameCount - 1] &&
+                    gameData[gameCount - 1].scoreTwo)
+                    ? gameData[gameCount - 1].playerTwo
+                    : ''}
+                </span>
+              </h4>
             </div>
-            <CSVLink data={this.props.scoreboard.gameData}>
-              Download CSV
-            </CSVLink>
-
+            <div>
+              <h4 style={{ textAlign: 'center' }}>
+                <span>
+                  Win Difference :{' '}
+                  {Math.abs(
+                    (gameData &&
+                      gameData[gameCount - 1] &&
+                      gameData[gameCount - 1].scoreOne) -
+                      (gameData &&
+                        gameData[gameCount - 1] &&
+                        gameData[gameCount - 1].scoreTwo),
+                  )}
+                </span>
+              </h4>
+            </div>
+            <div style={{ marginTop: '40px' }}>
+              <CSVLink data={this.props.scoreboard.gameData}>
+                <h6 style={{ textAlign: 'center' }}>Download Scoresheet</h6>
+              </CSVLink>
+            </div>
             <Link to='/'>
               <button
                 type='submit'
@@ -86,12 +127,12 @@ class Scoreboard extends Component {
               </button>
             </Link>
             <button
-              onClick={this.clickMe}
+              onClick={this.handleDelete}
               type='submit'
               style={{ width: '100%', marginTop: '30px' }}
               className='btn btn-dark btn-lg btn-block'
             >
-              Delete All
+              Delete Scoreboard
             </button>
           </div>
         </div>
@@ -108,7 +149,6 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveGame: () => dispatch(saveGame()),
     playerOneWin: () => dispatch(playerOneWin()),
     playerTwoWin: () => dispatch(playerTwoWin()),
   };

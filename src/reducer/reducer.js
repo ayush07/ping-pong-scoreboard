@@ -6,9 +6,6 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'NEW_GAME': {
-      console.log('STATE', state);
-      console.log('HELLO', state.gameCount);
-      console.log('PAYLOAD', action.payload);
       return {
         ...state,
         gameCount: state.gameCount + 1,

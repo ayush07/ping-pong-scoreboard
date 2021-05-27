@@ -12,11 +12,9 @@ class Home extends Component {
   }
 
   handleChange = (name) => (e) => {
-    console.log('FIRE');
     this.setState({ [name]: e.target.value });
   };
   handleNewGame = () => {
-    console.log('NEW GAME');
     const { playerOne, playerTwo } = this.state;
     const payload = {
       playerOne: playerOne,
@@ -27,7 +25,6 @@ class Home extends Component {
     this.props.newGame(payload);
   };
   render() {
-    console.log(this.state);
     return (
       <div className='outer'>
         <div className='inner'>
@@ -83,7 +80,7 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    counter: state,
+    home: state,
   };
 };
 const mapDispatchToProps = (dispatch) => {
