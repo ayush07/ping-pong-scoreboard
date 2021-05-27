@@ -6,7 +6,7 @@ import { CSVLink } from 'react-csv';
 class Scoreboard extends Component {
   componentDidMount = () => {
     if (this.props.scoreboard.gameCount === 0) {
-      this.props.history.push('/');
+      this.props && this.props.history && this.props.history.push('/');
     }
   };
   handleDelete = () => {
@@ -112,7 +112,7 @@ class Scoreboard extends Component {
                 <h6 style={{ textAlign: 'center' }}>Download Scoresheet</h6>
               </CSVLink>
             </div>
-            <Link to='/'>
+            <a href='/'>
               <button
                 type='submit'
                 style={{ width: '100%', marginTop: '30px' }}
@@ -120,7 +120,7 @@ class Scoreboard extends Component {
               >
                 New Game
               </button>
-            </Link>
+            </a>
             <button
               onClick={this.handleDelete}
               type='submit'
