@@ -4,10 +4,6 @@ import { playerOneWin, playerTwoWin } from '../actions/index';
 import { connect } from 'react-redux';
 import { CSVLink } from 'react-csv';
 class Scoreboard extends Component {
-  clickMe = () => {
-    console.log('HEllo');
-  };
-
   componentDidMount = () => {
     if (this.props.scoreboard.gameCount === 0) {
       this.props.history.push('/');
@@ -17,7 +13,6 @@ class Scoreboard extends Component {
     this.props.history.push('/');
   };
   render() {
-    console.log(this.props.history);
     const { gameCount } = this.props.scoreboard;
     const { gameData } = this.props.scoreboard;
     return (
